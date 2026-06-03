@@ -35,10 +35,10 @@ const io = new Server(httpServer, {
   cors: { origin: "*" }
 });
 
-// ---- Connect to Beamstream WebSocket ----
-const beamSocket = ClientIO(`${BEAM}/socket`, {
+// ---- Connect to Beamstream WebSocket (CORRECT PATH) ----
+const beamSocket = ClientIO("https://beamstream.gg", {
   transports: ["websocket"],
-  path: "/socket/",
+  path: "/socket.io/",
   withCredentials: false
 });
 
@@ -47,7 +47,7 @@ beamSocket.on("connect", () => {
 });
 
 beamSocket.onAny((event, data) => {
-  // Relay all Beamstream events to overlay clients
+  console.log("Beamstream event:", event, data);
   io.emit("chat", { event, data });
 });
 
